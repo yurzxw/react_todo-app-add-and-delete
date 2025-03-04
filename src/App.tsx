@@ -7,6 +7,8 @@ import { Todo } from './types/Todo';
 import { Header } from './components/header';
 import { Footer } from './components/footer';
 import { TodoList } from './components/TodoList';
+import { Status } from './types/Status';
+
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(false);
@@ -15,18 +17,14 @@ export const App: React.FC = () => {
   const [filter, setFilter] = useState('all');
   const [id, setId] = useState(0);
 
-  enum Status {
-    Active = 'active',
-    Completed = 'completed',
-    All = 'all',
-  }
+
   if (error !== '') {
     setTimeout(() => {
       setError('');
     }, 3000);
   }
 
-  function handleToggle(todoId: number) {
+  const  handleToggle =(todoId: number) => {
     setLoading(true);
     setId(todoId);
 
@@ -49,7 +47,7 @@ export const App: React.FC = () => {
       .catch(() => setError('Unable to update a todo'));
   }
 
-  function deleteTodo(todoId) {
+  const deleteTodo = (todoId) => {
     setId(todoId);
     setLoading(true);
     todosService
@@ -110,7 +108,7 @@ export const App: React.FC = () => {
           onDeleteTodo={deleteTodo}
           loading={loading}
           filtered={filteredTodos}
-          id={id}
+          ID={id}
         />
 
         {!!todos.length && (

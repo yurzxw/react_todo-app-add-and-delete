@@ -5,31 +5,31 @@ type Props = {
   onToggle: (id: number) => void;
   onDeleteTodo: (id: number) => void;
   loading: boolean;
-  id: number;
+  ID: number;
 };
 export const TodoItem: React.FC<Props> = ({
   todo,
   onToggle,
   onDeleteTodo,
   loading,
-  id,
+  ID,
 }) => {
-  const { title } = todo;
+  const { title, completed, id } = todo;
 
   return (
     <div
       data-cy="Todo"
       key={todo.id}
-      className={classNames('todo', { completed: todo.completed })}
+      className={classNames('todo', { completed: completed })}
     >
       <label className="todo__status-label">
         <input
-          id={todo.id}
+          id={id}
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={todo.completed}
-          onChange={() => onToggle(todo.id)}
+          checked={completed}
+          onChange={() => onToggle(id)}
         />
         <span className="hidden" style={{ display: 'none' }}>
           *
@@ -46,7 +46,7 @@ export const TodoItem: React.FC<Props> = ({
         className="todo__remove"
         data-cy="TodoDelete"
         onClick={() => {
-          onDeleteTodo(todo.id);
+          onDeleteTodo(id);
         }}
       >
         ×
@@ -56,7 +56,7 @@ export const TodoItem: React.FC<Props> = ({
       <div
         data-cy="TodoLoader"
         className={classNames('modal', 'overlay', {
-          'is-active': loading && id === todo.id,
+          'is-active': loading && ID === id,
         })}
       >
         <div className="modal-background has-background-white-ter" />

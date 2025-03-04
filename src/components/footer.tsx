@@ -1,6 +1,7 @@
 import { Todo } from '../types/Todo';
 import classNames from 'classnames';
 import * as todosService from '../api/todos';
+import { Status } from '../types/Status';
 
 type Props = {
   onFilter: (filter: string) => void;
@@ -17,7 +18,7 @@ export const Footer: React.FC<Props> = ({
   todos,
   filter,
 }) => {
-  function clearCompleted() {
+  const clearCompleted = () => {
     todos.map(todo => {
       if (todo.completed) {
         todosService
@@ -28,12 +29,8 @@ export const Footer: React.FC<Props> = ({
     onTodos(todos.filter(todo => !todo.completed));
   }
 
-  enum Status {
-    All = 'all',
-    Active = 'active',
-    Completed = 'completed',
-  }
 
+const itemsLeft = todos.filter(todo => !todo.completed).length;
   return (
     <footer
       className={classNames('todoapp__footer', {
@@ -42,27 +39,30 @@ export const Footer: React.FC<Props> = ({
       data-cy="Footer"
     >
       <span className="todo-count" data-cy="TodosCounter">
-        {todos.filter(todo => !todo.completed).length} items left
+        {itemsLeft} items left
       </span>
 
       {/* Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
-        {Object.values(Status).map((status, index) => {
+        {Object.values(Status).map((status) => {
           const isActive = filter === status;
+          const filteLabel = Object.keys(Status).find(
+            k => Status[k] === status,
+          );
 
           return (
             <a
-              key={index}
+              key={status}
               href="#/"
               className={classNames('filter__link', {
-                selected: filter === status,
+                selected: isActive,
               })}
-              data-cy={isActive ? 'FilterLinkActive' : 'FilterLinkAll'}
+              data-cy={`FilterLink${filteLabel}`}
               onClick={() => {
                 onFilter(status);
               }}
             >
-              {Object.keys(Status).find(k => Status[k] === status)}
+              {filteLabel}
             </a>
           );
         })}
@@ -73,9 +73,7 @@ export const Footer: React.FC<Props> = ({
         type="button"
         className="todoapp__clear-completed"
         data-cy="ClearCompletedButton"
-        onClick={() => {
-          clearCompleted();
-        }}
+        onClick={ clearCompleted }
       >
         Clear completed
       </button>
