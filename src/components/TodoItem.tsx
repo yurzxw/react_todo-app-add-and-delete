@@ -7,7 +7,6 @@ type Props = {
   loading: boolean;
   id: number;
 };
-
 export const TodoItem: React.FC<Props> = ({
   todo,
   onToggle,
@@ -15,6 +14,8 @@ export const TodoItem: React.FC<Props> = ({
   loading,
   id,
 }) => {
+  const { title } = todo;
+
   return (
     <div
       data-cy="Todo"
@@ -30,13 +31,13 @@ export const TodoItem: React.FC<Props> = ({
           checked={todo.completed}
           onChange={() => onToggle(todo.id)}
         />
-        <span className="hidden" style={{ display: 'none' }}>  {/* Щоб пройшов eslint*/}
+        <span className="hidden" style={{ display: 'none' }}>
           *
         </span>
       </label>
 
       <span data-cy="TodoTitle" className="todo__title">
-        {todo.title}
+        {title}
       </span>
 
       {/* Remove button appears only on hover */}
