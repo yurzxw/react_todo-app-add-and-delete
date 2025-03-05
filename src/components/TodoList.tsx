@@ -1,12 +1,11 @@
 import { TodoItem } from './TodoItem';
 import { Todo } from '../types/Todo';
-
+import { useState } from 'react';
 type Props = {
   onToggle: (id: number) => void;
   onDeleteTodo: (id: number) => void;
   loading: boolean;
   filtered: Todo[];
-  ID: number;
 };
 
 export const TodoList: React.FC<Props> = ({
@@ -14,8 +13,9 @@ export const TodoList: React.FC<Props> = ({
   onDeleteTodo,
   loading,
   filtered,
-  ID,
 }) => {
+  const [selected, setSelectedTodo] = useState<number | null>(0);
+
   return (
     <section className="todoapp__main" data-cy="TodoList">
       {filtered.map(todo => (
@@ -25,7 +25,8 @@ export const TodoList: React.FC<Props> = ({
           onToggle={onToggle}
           onDeleteTodo={onDeleteTodo}
           loading={loading}
-          ID={ID}
+          selected={selected}
+          setSelectedTodo={setSelectedTodo}
         />
       ))}
     </section>

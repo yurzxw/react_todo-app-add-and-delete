@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import * as todosService from './api/todos';
 import classNames from 'classnames';
 import { Todo } from './types/Todo';
-import { Header } from './components/header';
-import { Footer } from './components/footer';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { TodoList } from './components/TodoList';
 import { Status } from './types/Status';
 
@@ -15,8 +15,6 @@ export const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all');
-  const [id, setId] = useState(0);
-
 
   if (error !== '') {
     setTimeout(() => {
@@ -24,9 +22,8 @@ export const App: React.FC = () => {
     }, 3000);
   }
 
-  const  handleToggle =(todoId: number) => {
+  const handleToggle = (todoId: number) => {
     setLoading(true);
-    setId(todoId);
 
     todosService
       .patchTodo(todos.find(todo => todo.id === todoId).id, {
@@ -45,9 +42,9 @@ export const App: React.FC = () => {
         }, 500);
       })
       .catch(() => setError('Unable to update a todo'));
-  }
+  };
 
-  const deleteTodo = (todoId) => {
+  const deleteTodo = todoId => {
     setId(todoId);
     setLoading(true);
     todosService
@@ -62,10 +59,9 @@ export const App: React.FC = () => {
         }, 500),
       )
       .catch(() => setError('Unable to delete a todo'));
-  }
+  };
 
   useEffect(() => {
-    //todosService.clearTodos();
     setLoading(true);
     todosService
       .getTodos()
@@ -108,7 +104,6 @@ export const App: React.FC = () => {
           onDeleteTodo={deleteTodo}
           loading={loading}
           filtered={filteredTodos}
-          ID={id}
         />
 
         {!!todos.length && (

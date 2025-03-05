@@ -16,7 +16,7 @@ export const Header: React.FC<Props> = ({
 }) => {
   function handleSubmit(event) {
     event.preventDefault();
-    if (query === '') {
+    if (query.trim() === '') {
       onError('Title should not be empty');
 
       return;

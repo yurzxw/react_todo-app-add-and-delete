@@ -27,10 +27,10 @@ export const Footer: React.FC<Props> = ({
       }
     });
     onTodos(todos.filter(todo => !todo.completed));
-  }
+  };
 
+  const itemsLeft = todos.filter(todo => !todo.completed).length;
 
-const itemsLeft = todos.filter(todo => !todo.completed).length;
   return (
     <footer
       className={classNames('todoapp__footer', {
@@ -44,7 +44,7 @@ const itemsLeft = todos.filter(todo => !todo.completed).length;
 
       {/* Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
-        {Object.values(Status).map((status) => {
+        {Object.values(Status).map(status => {
           const isActive = filter === status;
           const filteLabel = Object.keys(Status).find(
             k => Status[k] === status,
@@ -58,9 +58,7 @@ const itemsLeft = todos.filter(todo => !todo.completed).length;
                 selected: isActive,
               })}
               data-cy={`FilterLink${filteLabel}`}
-              onClick={() => {
-                onFilter(status);
-              }}
+              onClick={() => onFilter(status)}
             >
               {filteLabel}
             </a>
@@ -73,7 +71,7 @@ const itemsLeft = todos.filter(todo => !todo.completed).length;
         type="button"
         className="todoapp__clear-completed"
         data-cy="ClearCompletedButton"
-        onClick={ clearCompleted }
+        onClick={clearCompleted}
       >
         Clear completed
       </button>
