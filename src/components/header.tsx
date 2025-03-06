@@ -4,7 +4,7 @@ import * as todosService from '../api/todos';
 
 type Props = {
   onError: () => void;
-  onTodos: () => void;
+  onTodos: (todos: Todo[]) => void;
   onQuery: () => void;
   query: string;
 };
