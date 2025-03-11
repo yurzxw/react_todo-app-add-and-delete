@@ -65,13 +65,7 @@ export const App: React.FC = () => {
     setLoading(true);
     todosService
       .getTodos()
-      .then(data => {
-        if (Array.isArray(data)) {
-          setTodos(data);
-        } else {
-          setTodos([]);
-        }
-      })
+      .then(setTodos)
       .catch(() => setError('Unable to load todos'))
       .finally(() => setLoading(false));
   }, []);
@@ -139,31 +133,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-
-{
-  /* This form is shown instead of the title and remove button */
-}
-
-{
-  /* <form>
-              <input
-                data-cy="TodoTitleField"
-                type="text"
-                className="todo__title-field"
-                placeholder="Empty todo will be deleted"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-              />
-            </form> */
-}
-
-{
-  /* 'is-active' class puts this modal on top of the todo */
-}
-
-{
-  /* <div data-cy="TodoLoader" className="modal overlay is-active">
-              <div className="modal-background has-background-white-ter" />
-              <div className="loader" />
-            </div> */
-}
