@@ -1,20 +1,25 @@
-import React from 'react';
-import { USER_ID } from '../api/todos';
+import React, { useState } from 'react';
 import * as todosService from '../api/todos';
+import { Todo } from '../types/Todo';
 
 type Props = {
-  onError: () => void;
+  onError: (error: string) => void;
   onTodos: (todos: Todo[]) => void;
-  onQuery: () => void;
+  onQuery: (query: string) => void;
   query: string;
+  onLoading: (isLoading: boolean) => void;
 };
 export const Header: React.FC<Props> = ({
   onError,
   onTodos,
   onQuery,
   query,
+  onLoading,
 }) => {
-  function handleSubmit(event) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentTempTodo, setTempTodo] = useState<Todo | null>(null);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (query.trim() === '') {
       onError('Title should not be empty');
@@ -22,20 +27,29 @@ export const Header: React.FC<Props> = ({
       return;
     }
 
+    onLoading(true);
 
-    todosService
-      .postTodo({
-        userId: USER_ID,
-        title: query,
-        completed: false,
-      })
-      .then(newTodo => {
-        onTodos(currentTodos => [...currentTodos, newTodo]);
-      })
-      .catch(() => onError('Unable to add a todo'));
+    const tempTodo = {
+      id: 0,
+      title: query,
+      userId: todosService.USER_ID,
+      completed: false,
+    };
 
-    onQuery('');
-  }
+    setTempTodo(tempTodo);
+
+    try {
+      const createdTodo = await todosService.postTodo(tempTodo);
+
+      onTodos((currentTodos: Todo[]) => [...currentTodos, createdTodo]);
+      onQuery('');
+    } catch {
+      onError('Unable to add a todo');
+    } finally {
+      setTempTodo(null);
+      onLoading(false);
+    }
+  };
 
   return (
     <header className="todoapp__header">

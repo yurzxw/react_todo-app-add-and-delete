@@ -45,7 +45,6 @@ export const App: React.FC = () => {
   };
 
   const deleteTodo = todoId => {
-    setId(todoId);
     setLoading(true);
     todosService
       .deleteTodo(todoId)
@@ -92,6 +91,7 @@ export const App: React.FC = () => {
           onTodos={setTodos}
           onQuery={setQuery}
           query={query}
+          onLoading={setLoading}
         />
         <TodoList
           onToggle={handleToggle}
