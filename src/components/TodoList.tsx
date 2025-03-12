@@ -6,6 +6,7 @@ type Props = {
   onDeleteTodo: (id: number) => void;
   loading: boolean;
   filtered: Todo[];
+  tempTodo: Todo | null;
 };
 
 export const TodoList: React.FC<Props> = ({
@@ -13,6 +14,7 @@ export const TodoList: React.FC<Props> = ({
   onDeleteTodo,
   loading,
   filtered,
+  tempTodo,
 }) => {
   const [selected, setSelectedTodo] = useState<number | null>(0);
 
@@ -24,11 +26,23 @@ export const TodoList: React.FC<Props> = ({
           todo={todo}
           onToggle={onToggle}
           onDeleteTodo={onDeleteTodo}
-          loading={loading}
+          loading={loading && selected === todo.id}
           selected={selected}
           setSelectedTodo={setSelectedTodo}
         />
       ))}
+
+      {tempTodo && (
+        <TodoItem
+          key="temp"
+          todo={tempTodo}
+          onToggle={onToggle}
+          onDeleteTodo={onDeleteTodo}
+          loading={true}
+          selected={selected}
+          setSelectedTodo={setSelectedTodo}
+        />
+      )}
     </section>
   );
 };

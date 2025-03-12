@@ -6,14 +6,13 @@ type Props = {
   onDeleteTodo: (id: number) => void;
   loading: boolean;
   selected: number;
-  setSelectedTodo: () => void;
+  setSelectedTodo: (todoId: number) => void;
 };
 export const TodoItem: React.FC<Props> = ({
   todo,
   onToggle,
   onDeleteTodo,
   loading,
-  selected,
   setSelectedTodo,
 }) => {
   const { title, completed, id } = todo;
@@ -51,6 +50,7 @@ export const TodoItem: React.FC<Props> = ({
         className="todo__remove"
         data-cy="TodoDelete"
         onClick={() => {
+          setSelectedTodo(id);
           onDeleteTodo(id);
         }}
       >
@@ -61,7 +61,7 @@ export const TodoItem: React.FC<Props> = ({
       <div
         data-cy="TodoLoader"
         className={classNames('modal', 'overlay', {
-          'is-active': loading && selected === id,
+          'is-active': loading,
         })}
       >
         <div className="modal-background has-background-white-ter" />
